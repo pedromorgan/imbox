@@ -30,13 +30,17 @@ import sys, os
 #me_path = sys.path.dir
 
 # we add parent directory
-project_root = os.path.join(os.path.dirname(__file__), "../")
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
+print "## PROJECT_ROOT=", project_root
 if not project_root in sys.path:
-	print "appending path: %s" % project_root
+	print "## appending PRJECT_ROOT: %s" % project_root
+	sys.path.append(project_root)
 	
-	
+## We need stuff from "setup.py" but this is parent parent path..
+## maybe best solution to contain in lib later
 
-
+PROJECT_NAME = "python-imbox" # = FIX ME
+PROJECT_VER = "0.5-docs" # FIX ME
 
 
 
@@ -47,7 +51,13 @@ if not project_root in sys.path:
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinx.ext.intersphinx', 'sphinx.ext.todo', 'sphinx.ext.coverage', 'sphinx.ext.pngmath', 'sphinx.ext.mathjax', 'sphinx.ext.ifconfig', 'sphinx.ext.viewcode']
+extensions = [
+    'sphinx.ext.autodoc', 'sphinx.ext.doctest', 
+    'sphinx.ext.intersphinx', 'sphinx.ext.todo', 'sphinx.ext.coverage', 
+    'sphinx.ext.pngmath', 'sphinx.ext.mathjax', 
+    'sphinx.ext.ifconfig', 
+    'sphinx.ext.viewcode'
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -63,13 +73,14 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'python-imbox'
-copyright = u'2013, MAIN MAN HERE'
+copyright = u'AUTO_YEAR, [MAIN BODFL HERE]'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
+## need to split this out
 version = '0'
 # The full version, including alpha/beta/rc tags.
 release = '1'
@@ -82,7 +93,7 @@ release = '1'
 # non-false value, then it is used:
 #today = ''
 # Else, today_fmt is used as the format for a strftime call.
-#today_fmt = '%B %d, %Y'
+today_fmt = '%Y-%m-%d' ## FIXME iso 2013-12-25 = xmas
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -113,7 +124,8 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'default'
+#html_theme = 'default'
+html_theme = 'nature'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -125,7 +137,7 @@ html_theme = 'default'
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-#html_title = None
+html_title = PROJECT_NAME
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #html_short_title = None

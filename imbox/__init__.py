@@ -1,41 +1,47 @@
+# -*- coding: utf-8 -*-
+
 from imbox.imap import ImapTransport
 from imbox.parser import parse_email
 
 class Imbox(object):
+    """The Imbox is a container for a connection to a maibox or a server."""
+    def __init__(self, hostname, username=None, password=None, ssl=True):
 
-	def __init__(self, hostname, username=None, password=None, ssl=True):
+        server = ImapTransport(hostname, ssl=ssl)
+        self.connection = server.connect(username, password)
 
-		server = ImapTransport(hostname, ssl=ssl)
-		self.connection = server.connect(username, password)
+    def fetch_by_uid(self, uid):
+        """Fetches a message using some magic called BODY.Peek
+        
+        return: an email object
+        """
+        message, data = self.connection.uid('fetch', uid, '(BODY.PEEK[])') # Don't mark the messages as read
+        raw_email = data[0][1]
 
-	def fetch_by_uid(self, uid):
-		message, data = self.connection.uid('fetch', uid, '(BODY.PEEK[])') # Don't mark the messages as read
-		raw_email = data[0][1]
+        email_object = parse_email(raw_email)
 
-		email_object = parse_email(raw_email)
+        return email_object
 
-		return email_object
+    def fetch_list(self, data):
+        uid_list = data[0].split()
 
-	def fetch_list(self, data):
-		uid_list = data[0].split()
+        for uid in uid_list:
+            yield self.fetch_by_uid(uid)
 
-		for uid in uid_list:
-			yield self.fetch_by_uid(uid)
+    def messages(self, *args, **kwargs):
 
-	def messages(self, *args, **kwargs):
+        query = "ALL"
 
-		query = "ALL"
+        # Parse keyword arguments 
+        unread = kwargs.get('unread', False)
+        folder = kwargs.get('folder', False)
+        sent_from = kwargs.get('sent_from', False)
+        sent_to = kwargs.get('sent_to', False)
 
-		# Parse keyword arguments 
-		unread = kwargs.get('unread', False)
-		folder = kwargs.get('folder', False)
-		sent_from = kwargs.get('sent_from', False)
-		sent_to = kwargs.get('sent_to', False)
+        if unread != False:
+            query = "UNSEEN"
 
-		if unread != False:
-			query = "UNSEEN"
+        message, data = self.connection.uid('search', None, query)
 
-		message, data = self.connection.uid('search', None, query)
-
-		return self.fetch_list(data)
-		
+        return self.fetch_list(data)
+        
