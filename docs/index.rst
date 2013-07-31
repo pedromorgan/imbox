@@ -2,6 +2,16 @@
 Python IMAP for Humans
 ========================================
 
+
+.. info:: 
+    
+    This is a new project and active.. its an IMAP client in a snake, cobra style..
+
+.. warning::
+
+    from imbox import Imbox
+
+
 Contents:
 
 .. toctree::

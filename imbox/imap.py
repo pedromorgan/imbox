@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 
 
 from imaplib import IMAP4, IMAP4_SSL

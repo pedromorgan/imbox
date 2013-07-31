@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+
 import re
 import StringIO
 import email
@@ -5,33 +8,33 @@ from email.header import decode_header
 
 
 class Struct(object):
-	def __init__(self, **entries):
-		self.__dict__.update(entries)
+    def __init__(self, **entries):
+        self.__dict__.update(entries)
 
-	def keys(self):
-		return self.__dict__.keys()
+    def keys(self):
+        return self.__dict__.keys()
 
-	def __repr__(self):
-		return str(self.__dict__)
+    def __repr__(self):
+        return str(self.__dict__)
 
 
 def decode_mail_header(value, default_charset='us-ascii'):
-	"""
-	Decode a header value into a unicode string. 
-	"""
-	try:
-		headers=decode_header(value)
-	except email.errors.HeaderParseError:
-		return value.encode(default_charset, 'replace').decode(default_charset)
-	else:
-		for index, (text, charset) in enumerate(headers):
-			try:
-				headers[index]=text.decode(charset or default_charset, 'replace')
-			except LookupError:
-				# if the charset is unknown, force default 
-				headers[index]=text.decode(default_charset, 'replace')
+    """
+    Decode a header value into a unicode string. 
+    """
+    try:
+        headers=decode_header(value)
+    except email.errors.HeaderParseError:
+        return value.encode(default_charset, 'replace').decode(default_charset)
+    else:
+        for index, (text, charset) in enumerate(headers):
+            try:
+                headers[index]=text.decode(charset or default_charset, 'replace')
+            except LookupError:
+                # if the charset is unknown, force default 
+                headers[index]=text.decode(default_charset, 'replace')
 
-		return u"".join(headers)
+        return u"".join(headers)
 
 
 def get_mail_addresses(message, header_name):

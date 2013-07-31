@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from imbox.imap import ImapTransport
+# -*- coding: utf-8 -*-
+
+
 from imbox.parser import parse_email
 
 class Imbox(object):

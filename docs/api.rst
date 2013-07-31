@@ -1,5 +1,5 @@
 =======================================================
-:mod:`imbox.imap`
+:mod:`imbox`
 =======================================================
 
 .. automodule:: imbox
@@ -10,6 +10,12 @@
         
         
 .. automodule:: imbox.imap
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    :inherited-members:
+        
+.. automodule:: imbox.parser
     :members:
     :undoc-members:
     :show-inheritance:
